@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Check graphics for visible pattern seams, preview repeats, and export exact-size 300 PPI PNG or JPEG files.">
+<title>Pattern Proof — Seamless Pattern Checker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1725'/%3E%3Cpath d='M8 8h24v24H8zm24 24h24v24H32z' fill='%2331d7c4'/%3E%3Cpath d='M32 8h24v24H32zM8 32h24v24H8z' fill='%23ffd166'/%3E%3C/svg%3E">
+<style>
+:root{--ink:#eaf4f6;--muted:#91a8b3;--panel:#101f2d;--panel2:#142636;--line:#294052;--bg:#07131e;--teal:#31d7c4;--yellow:#ffd166;--red:#ff6b6b;--orange:#ff9f43;--green:#6ee7a8;--radius:16px;--shadow:0 18px 55px rgba(0,0,0,.28)}
+*{box-sizing:border-box}
+html{font-size:16px;background:var(--bg)}
+body{margin:0;color:var(--ink);background:radial-gradient(circle at 85% -10%,#173e4b 0,transparent 32rem),var(--bg);font:500 1rem/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,.drop:focus-visible{outline:3px solid rgba(49,215,196,.35);outline-offset:2px}
+header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(7,19,30,.72);backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{display:grid;grid-template-columns:repeat(2,11px);gap:2px;padding:7px;border:1px solid #3c5668;border-radius:9px;background:#0a1725}.brand-mark i{height:11px;border-radius:2px;background:var(--teal)}.brand-mark i:nth-child(2),.brand-mark i:nth-child(3){background:var(--yellow)}h1{font-size:1.08rem;margin:0;letter-spacing:.01em}.privacy{display:flex;gap:8px;align-items:center;color:#b7c9d0;font-size:.82rem}.privacy svg{color:var(--teal)}
+main{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:calc(100vh - 72px)}
+.controls{border-right:1px solid rgba(255,255,255,.08);background:rgba(10,24,36,.78);padding:22px;overflow:auto}
+.section{border-bottom:1px solid var(--line);padding:0 0 22px;margin:0 0 22px}.section:last-child{border:0;margin:0}.eyebrow{color:var(--teal);text-transform:uppercase;letter-spacing:.13em;font-size:.73rem;font-weight:800;margin-bottom:10px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.section h2{font-size:.98rem;margin:0}.step{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;color:#07131e;background:var(--yellow);font-size:.78rem;font-weight:900}
+.drop{display:grid;place-items:center;text-align:center;min-height:144px;padding:20px;border:1.5px dashed #527183;border-radius:14px;background:rgba(255,255,255,.025);transition:.2s ease}.drop:hover,.drop.over{border-color:var(--teal);background:rgba(49,215,196,.06);transform:translateY(-1px)}.drop strong{font-size:.95rem}.drop span{color:var(--muted);font-size:.8rem;margin-top:5px}.upload-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;color:var(--teal);background:rgba(49,215,196,.1);margin-bottom:10px}.file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.file-meta{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:#0a1925;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}.file-meta.show{display:block}.file-meta strong{display:block;color:var(--ink);font-size:.83rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.field{margin-top:15px}.label-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:7px}.label-row label,.label{color:#c8d7dc;font-size:.84rem;font-weight:700}.value{color:var(--yellow);font-variant-numeric:tabular-nums;font-size:.82rem}
+input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[type=number],select{width:100%;border:1px solid #355064;background:#091823;color:var(--ink);border-radius:9px;padding:10px 11px;min-height:42px}input[type=color]{width:100%;height:42px;padding:4px;border:1px solid #355064;background:#091823;border-radius:9px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.unit{font-size:.76rem;color:var(--muted);margin-top:5px}.output-info{margin-top:12px;padding:10px 12px;background:rgba(49,215,196,.07);border:1px solid rgba(49,215,196,.22);border-radius:10px;color:#bfe8e4;font-size:.78rem}.warning{display:none;margin-top:10px;padding:10px;border-radius:9px;color:#ffd9d9;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);font-size:.78rem}.warning.show{display:block}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;min-height:44px}.btn-primary{width:100%;color:#06131b;background:linear-gradient(135deg,var(--teal),#68e3d5);box-shadow:0 8px 24px rgba(49,215,196,.18)}.btn-primary:hover{filter:brightness(1.06)}.btn-primary:disabled{cursor:not-allowed;opacity:.38;box-shadow:none}.btn-secondary{color:#d8e6ea;background:#142838;border:1px solid #385367}.format-options{display:flex;gap:8px}.format-options button{flex:1;border:1px solid #355064;border-radius:9px;padding:9px;color:#b9cbd2;background:#091823;font-weight:800}.format-options button.active{border-color:var(--teal);color:var(--teal);background:rgba(49,215,196,.08)}
+.workspace{min-width:0;padding:22px;display:grid;grid-template-rows:auto minmax(360px,1fr);gap:16px}.results{display:grid;grid-template-columns:minmax(250px,1.35fr) repeat(2,minmax(150px,.7fr));gap:12px}.result-card{border:1px solid var(--line);border-radius:13px;background:rgba(16,31,45,.88);padding:15px;min-height:96px}.result-main{display:flex;align-items:center;gap:14px}.status-icon{flex:0 0 auto;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:var(--muted);background:#0b1924;border:5px solid #273b49}.status-icon.good{color:var(--green);border-color:rgba(110,231,168,.3)}.status-icon.maybe{color:var(--yellow);border-color:rgba(255,209,102,.3)}.status-icon.bad{color:var(--red);border-color:rgba(255,107,107,.3)}.result-card h3{font-size:.93rem;margin:0 0 3px}.result-card p{font-size:.77rem;color:var(--muted);margin:0}.score{font-size:1.72rem;font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.score small{font-size:.78rem;color:var(--muted);letter-spacing:0}.score-bar{height:5px;border-radius:10px;background:#233746;margin-top:9px;overflow:hidden}.score-bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .35s ease}.empty-score{color:#617886}
+.preview-card{position:relative;min-height:0;border:1px solid var(--line);border-radius:var(--radius);background:#0c1b27;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}.preview-toolbar{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:#102230}.preview-toolbar h2{font-size:.9rem;margin:0}.segmented{display:flex;padding:3px;background:#081722;border:1px solid #2a4253;border-radius:9px}.segmented button{border:0;background:transparent;color:var(--muted);border-radius:6px;padding:6px 10px;font-size:.77rem;font-weight:800}.segmented button.active{color:var(--ink);background:#213a4a}.zoom-note{color:var(--muted);font-size:.75rem}.canvas-wrap{position:relative;flex:1;min-height:360px;display:grid;place-items:center;overflow:hidden;background-color:#14222b;background-image:linear-gradient(45deg,#1b2c36 25%,transparent 25%),linear-gradient(-45deg,#1b2c36 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1b2c36 75%),linear-gradient(-45deg,transparent 75%,#1b2c36 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+#preview{width:100%;height:100%;display:block}.empty-state{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;background:rgba(8,22,32,.76)}.empty-state.hide{display:none}.empty-state svg{color:#547082;margin-bottom:10px}.empty-state h2{font-size:1rem;margin:0 0 4px}.empty-state p{color:var(--muted);font-size:.83rem;margin:0;max-width:300px}.seam-key{display:none;position:absolute;right:14px;bottom:14px;background:rgba(6,17,25,.84);border:1px solid #365468;border-radius:8px;padding:7px 9px;color:#c4d7dd;font-size:.72rem}.seam-key.show{display:block}.cross{display:inline-block;width:12px;height:0;border-top:2px dashed var(--yellow);vertical-align:middle;margin-right:6px}
+.toast{position:fixed;right:20px;bottom:20px;max-width:330px;transform:translateY(20px);opacity:0;pointer-events:none;border:1px solid #356052;background:#102b29;color:#d7fff9;border-radius:12px;padding:12px 15px;box-shadow:var(--shadow);transition:.25s;z-index:50;font-size:.86rem}.toast.show{transform:none;opacity:1}
+@media(max-width:900px){header{padding:0 16px}.privacy span{display:none}main{grid-template-columns:1fr}.controls{border-right:0;border-bottom:1px solid var(--line)}.workspace{min-height:720px}.results{grid-template-columns:1fr 1fr}.result-card:first-child{grid-column:1/-1}}
+@media(max-width:560px){.workspace,.controls{padding:14px}.workspace{grid-template-rows:auto 520px}.results{grid-template-columns:1fr}.result-card:first-child{grid-column:auto}.preview-toolbar{align-items:flex-start;flex-direction:column}.zoom-note{display:none}.twocol{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h1>Pattern Proof</h1></div>
+  <div class="privacy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 10V7a5 5 0 0110 0v3m-11 0h12v10H6V10z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Files stay in your browser</span></div>
+</header>
+<main>
+<aside class="controls">
+  <section class="section">
+    <div class="section-title"><div><div class="eyebrow">Source tile</div><h2>Choose a graphic</h2></div><span class="step">1</span></div>
+    <label class="drop" id="dropZone" tabindex="0" role="button" for="fileInput">
+      <span class="upload-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v5h14v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <strong>Drop an image or browse</strong>
+      <span>PNG, JPEG, or WebP</span>
+    </label>
+    <input class="file-input" id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+    <div class="file-meta" id="fileMeta"><strong id="fileName"></strong><span id="fileDetails"></span></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><div><div class="eyebrow">Pattern scale</div><h2>Set the repeat size</h2></div><span class="step">2</span></div>
+    <div class="field">
+      <div class="label-row"><label for="scaleRange">Scale</label><span class="value" id="scaleValue">100%</span></div>
+      <input id="scaleRange" type="range" min="5" max="400" value="100" step="1">
+    </div>
+    <div class="field">
+      <div class="twocol">
+        <div><label class="label" for="scaleNumber">Percentage</label><input id="scaleNumber" type="number" min="5" max="400" step="1" value="100"><div class="unit">% of original pixels</div></div>
+        <div><span class="label">Tile at 300 PPI</span><div class="output-info" id="tileSize">Load an image</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><div><div class="eyebrow">Final canvas</div><h2>Choose output size</h2></div><span class="step">3</span></div>
+    <div class="twocol">
+      <div><label class="label" for="outWidth">Width</label><input id="outWidth" type="number" min=".1" max="100" step=".125" value="12"><div class="unit">inches</div></div>
+      <div><label class="label" for="outHeight">Height</label><input id="outHeight" type="number" min=".1" max="100" step=".125" value="12"><div class="unit">inches</div></div>
+    </div>
+    <div class="output-info" id="outputInfo">3,600 × 3,600 px · 300 PPI</div>
+    <div class="warning" id="sizeWarning">This canvas is too large for a reliable browser export. Reduce the width or height.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><div><div class="eyebrow">Download</div><h2>Export the pattern</h2></div><span class="step">4</span></div>
+    <div class="field"><span class="label">File format</span><div class="format-options" role="group" aria-label="File format"><button type="button" class="active" data-format="png">PNG</button><button type="button" data-format="jpeg">JPEG</button></div></div>
+    <div class="field" id="backgroundField" hidden><label class="label" for="backgroundColor">JPEG background</label><input id="backgroundColor" type="color" value="#ffffff"></div>
+    <div class="field"><label class="label" for="fileBase">File name</label><input id="fileBase" type="text" value="seamless-pattern" maxlength="80"></div>
+    <div class="field"><button class="btn btn-primary" id="exportBtn" disabled>Export 300 PPI PNG</button></div>
+  </section>
+</aside>
+
+<section class="workspace" aria-label="Pattern inspection">
+  <div class="results">
+    <article class="result-card result-main">
+      <div class="status-icon" id="statusIcon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v4m0 4h.01M4.9 19h14.2a2 2 0 001.73-3L13.73 4a2 2 0 00-3.46 0L3.17 16a2 2 0 001.73 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><h3 id="statusTitle">No pattern checked</h3><p id="statusText">Upload the original repeating tile to inspect its edges.</p></div>
+    </article>
+    <article class="result-card"><h3>Left ↔ right</h3><div class="score empty-score" id="scoreX">—<small>/100</small></div><div class="score-bar"><i id="barX"></i></div></article>
+    <article class="result-card"><h3>Top ↕ bottom</h3><div class="score empty-score" id="scoreY">—<small>/100</small></div><div class="score-bar"><i id="barY"></i></div></article>
+  </div>
+  <div class="preview-card">
+    <div class="preview-toolbar">
+      <h2>Repeat preview</h2>
+      <div class="segmented" role="group" aria-label="Preview mode"><button type="button" class="active" data-view="tiles">Tiled view</button><button type="button" data-view="offset">Center seams</button></div>
+      <span class="zoom-note">Scale control changes preview and export</span>
+    </div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="preview" aria-label="Repeated pattern preview"></canvas>
+      <div class="empty-state" id="emptyState"><div><svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="26" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="4" y="26" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="26" y="26" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/></svg><h2>Your repeat will appear here</h2><p>Use the original pattern tile—not a screenshot of several repeats—for the most accurate check.</p></div></div>
+      <div class="seam-key" id="seamKey"><span class="cross"></span>Original tile seams centered</div>
+    </div>
+  </div>
+</section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+var state={image:null,file:null,scale:100,format:"png",view:"tiles",analysis:null};
+var $=function(id){return document.getElementById(id)};
+var fileInput=$("fileInput"),dropZone=$("dropZone"),preview=$("preview"),wrap=$("canvasWrap");
+var scaleRange=$("scaleRange"),scaleNumber=$("scaleNumber"),outWidth=$("outWidth"),outHeight=$("outHeight");
+var exportBtn=$("exportBtn"),formatButtons=document.querySelectorAll("[data-format]"),viewButtons=document.querySelectorAll("[data-view]");
+var toastTimer;
+
+function showToast(message,isError){
+  var el=$("toast"); el.textContent=message; el.style.borderColor=isError?"rgba(255,107,107,.45)":"#356052"; el.style.background=isError?"#331d25":"#102b29"; el.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(function(){el.classList.remove("show")},3600);
+}
+function clamp(v,min,max){return Math.min(max,Math.max(min,v))}
+function cleanName(name){return (name||"seamless-pattern").trim().replace(/\.[^.]+$/,"").replace(/[^a-z0-9_-]+/gi,"-").replace(/^-+|-+$/g,"")||"seamless-pattern"}
+function formatNumber(n){return new Intl.NumberFormat("en-US").format(n)}
+function hasTransparency(image){
+  var c=document.createElement("canvas"),max=500,ratio=Math.min(1,max/Math.max(image.naturalWidth,image.naturalHeight));
+  c.width=Math.max(1,Math.round(image.naturalWidth*ratio)); c.height=Math.max(1,Math.round(image.naturalHeight*ratio));
+  var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(image,0,0,c.width,c.height);
+  var d=x.getImageData(0,0,c.width,c.height).data;
+  for(var i=3;i<d.length;i+=4){if(d[i]<255)return true} return false;
+}
+function pixelVector(data,i){
+  var a=data[i+3]/255;
+  return [data[i]*a/255,data[i+1]*a/255,data[i+2]*a/255,a];
+}
+function pixelError(a,b){
+  var dr=a[0]-b[0],dg=a[1]-b[1],db=a[2]-b[2],da=a[3]-b[3];
+  return Math.sqrt((dr*dr+dg*dg+db*db+da*da)/4);
+}
+function edgeScore(errors){
+  errors.sort(function(a,b){return a-b});
+  var sum=0; for(var i=0;i<errors.length;i++)sum+=errors[i];
+  var mean=sum/errors.length,p95=errors[Math.min(errors.length-1,Math.floor(errors.length*.95))];
+  var combined=mean*.72+p95*.28;
+  return Math.round(clamp(100*(1-combined*2.35),0,100));
+}
+function analyze(image){
+  var max=1100,ratio=Math.min(1,max/Math.max(image.naturalWidth,image.naturalHeight));
+  var w=Math.max(2,Math.round(image.naturalWidth*ratio)),h=Math.max(2,Math.round(image.naturalHeight*ratio));
+  var c=document.createElement("canvas"); c.width=w;c.height=h;
+  var x=c.getContext("2d",{willReadFrequently:true});x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(image,0,0,w,h);
+  var d=x.getImageData(0,0,w,h).data,errorsX=[],errorsY=[];
+  var stepY=Math.max(1,Math.floor(h/700)),stepX=Math.max(1,Math.floor(w/700));
+  for(var y=0;y<h;y+=stepY){errorsX.push(pixelError(pixelVector(d,(y*w)*4),pixelVector(d,(y*w+w-1)*4)))}
+  for(var xx=0;xx<w;xx+=stepX){errorsY.push(pixelError(pixelVector(d,xx*4),pixelVector(d,((h-1)*w+xx)*4)))}
+  return {x:edgeScore(errorsX),y:edgeScore(errorsY)};
+}
+function paintScore(id,barId,score){
+  var el=$(id),bar=$(barId);el.innerHTML=score+"<small>/100</small>";el.classList.remove("empty-score");
+  bar.style.width=score+"%";bar.style.background=score>=94?"var(--green)":score>=82?"var(--yellow)":"var(--red)";
+}
+function updateAnalysis(){
+  var a=state.analysis;if(!a)return;
+  paintScore("scoreX","barX",a.x);paintScore("scoreY","barY",a.y);
+  var low=Math.min(a.x,a.y),icon=$("statusIcon");
+  icon.className="status-icon "+(low>=94?"good":low>=82?"maybe":"bad");
+  if(low>=94){$("statusTitle").textContent="Edges match closely";$("statusText").textContent="No obvious seam was found. Confirm visually in the centered-seam preview."}
+  else if(low>=82){$("statusTitle").textContent="Possible subtle seam";$("statusText").textContent="The edges are similar, but inspect the centered seams before printing."}
+  else{$("statusTitle").textContent="Visible seam likely";$("statusText").textContent="Opposite edges differ enough that a repeated line may appear."}
+}
+function handleFile(file){
+  if(!file)return;
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){showToast("Please choose a PNG, JPEG, or WebP image.",true);return}
+  var url=URL.createObjectURL(file),img=new Image();
+  img.onload=function(){
+    if(state.image&&state.image._url)URL.revokeObjectURL(state.image._url);
+    img._url=url;state.image=img;state.file=file;state.analysis=analyze(img);
+    $("fileName").textContent=file.name;
+    var alpha=hasTransparency(img);
+    $("fileDetails").textContent=formatNumber(img.naturalWidth)+" × "+formatNumber(img.naturalHeight)+" px · "+(alpha?"Transparency detected":"Opaque");
+    $("fileMeta").classList.add("show");$("emptyState").classList.add("hide");exportBtn.disabled=false;
+    $("fileBase").value=cleanName(file.name)+"-repeat";
+    updateAnalysis();updateSizing();renderPreview();showToast("Pattern loaded and checked.");
+  };
+  img.onerror=function(){URL.revokeObjectURL(url);showToast("That image could not be opened.",true)};
+  img.src=url;
+}
+function updateSizing(){
+  state.scale=clamp(Number(scaleNumber.value)||100,5,400);
+  scaleRange.value=state.scale;scaleNumber.value=state.scale;$("scaleValue").textContent=state.scale+"%";
+  if(state.image){
+    var tw=state.image.naturalWidth*state.scale/100,th=state.image.naturalHeight*state.scale/100;
+    $("tileSize").textContent=(tw/300).toFixed(2)+" × "+(th/300).toFixed(2)+" in";
+  }
+  var wi=Math.max(.1,Number(outWidth.value)||0),hi=Math.max(.1,Number(outHeight.value)||0);
+  var wp=Math.round(wi*300),hp=Math.round(hi*300),pixels=wp*hp,large=pixels>100000000||wp>30000||hp>30000;
+  $("outputInfo").textContent=formatNumber(wp)+" × "+formatNumber(hp)+" px · 300 PPI · "+(pixels/1000000).toFixed(1)+" MP";
+  $("sizeWarning").classList.toggle("show",large);
+  exportBtn.disabled=!state.image||large;
+  exportBtn.textContent="Export 300 PPI "+state.format.toUpperCase();
+}
+function fitPreviewCanvas(){
+  var r=wrap.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+  var w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));
+  if(preview.width!==w||preview.height!==h){preview.width=w;preview.height=h}
+  renderPreview();
+}
+function renderPreview(){
+  var ctx=preview.getContext("2d"),w=preview.width,h=preview.height;ctx.clearRect(0,0,w,h);if(!state.image)return;
+  var dpr=Math.min(window.devicePixelRatio||1,2),img=state.image,aspect=img.naturalWidth/img.naturalHeight;
+  var base=190*dpr*(state.scale/100),tw,th;
+  if(aspect>=1){tw=base;th=base/aspect}else{th=base;tw=base*aspect}
+  tw=Math.max(12*dpr,tw);th=Math.max(12*dpr,th);
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+  var startX=state.view==="offset"?w/2-Math.floor(w/2/tw)*tw-tw/2:0;
+  var startY=state.view==="offset"?h/2-Math.floor(h/2/th)*th-th/2:0;
+  for(var y=startY-th;y<h+th;y+=th){for(var x=startX-tw;x<w+tw;x+=tw){ctx.drawImage(img,Math.round(x),Math.round(y),Math.ceil(tw),Math.ceil(th))}}
+  if(state.view==="offset"){
+    ctx.save();ctx.strokeStyle="#ffd166";ctx.lineWidth=1.5*dpr;ctx.setLineDash([7*dpr,6*dpr]);
+    ctx.beginPath();ctx.moveTo(w/2,0);ctx.lineTo(w/2,h);ctx.moveTo(0,h/2);ctx.lineTo(w,h/2);ctx.stroke();ctx.restore();
+  }
+}
+function crcTable(){
+  var table=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=(c&1)?0xedb88320^(c>>>1):c>>>1;table[n]=c>>>0}return table
+}
+var CRCT=crcTable();
+function crc32(bytes){
+  var c=0xffffffff;for(var i=0;i<bytes.length;i++)c=CRCT[(c^bytes[i])&255]^(c>>>8);return(c^0xffffffff)>>>0
+}
+function writeU32(a,o,v){a[o]=(v>>>24)&255;a[o+1]=(v>>>16)&255;a[o+2]=(v>>>8)&255;a[o+3]=v&255}
+function pngDpi(buffer){
+  var src=new Uint8Array(buffer),parts=[src.slice(0,8)],pos=8,inserted=false,ppm=Math.round(300/0.0254);
+  var typeBytes=new TextEncoder().encode("pHYs"),data=new Uint8Array(9);writeU32(data,0,ppm);writeU32(data,4,ppm);data[8]=1;
+  var chunk=new Uint8Array(21);writeU32(chunk,0,9);chunk.set(typeBytes,4);chunk.set(data,8);var crcInput=new Uint8Array(13);crcInput.set(typeBytes);crcInput.set(data,4);writeU32(chunk,17,crc32(crcInput));
+  while(pos+12<=src.length){
+    var len=((src[pos]<<24)|(src[pos+1]<<16)|(src[pos+2]<<8)|src[pos+3])>>>0;
+    var end=pos+12+len,type=String.fromCharCode(src[pos+4],src[pos+5],src[pos+6],src[pos+7]);
+    if(type!=="pHYs")parts.push(src.slice(pos,end));
+    if(type==="IHDR"&&!inserted){parts.push(chunk);inserted=true}
+    pos=end;if(type==="IEND")break;
+  }
+  var total=parts.reduce(function(s,p){return s+p.length},0),out=new Uint8Array(total),at=0;
+  parts.forEach(function(p){out.set(p,at);at+=p.length});return out;
+}
+function jpegDpi(buffer){
+  var src=new Uint8Array(buffer),out=new Uint8Array(src);
+  if(out.length>20&&out[0]===255&&out[1]===216&&out[2]===255&&out[3]===224&&String.fromCharCode.apply(null,out.slice(6,11))==="JFIF\u0000"){
+    out[13]=1;out[14]=1;out[15]=44;out[16]=1;out[17]=44;return out;
+  }
+  var app=new Uint8Array([255,224,0,16,74,70,73,70,0,1,1,1,1,44,1,44,0,0]);
+  out=new Uint8Array(src.length+app.length);out.set(src.slice(0,2),0);out.set(app,2);out.set(src.slice(2),2+app.length);return out;
+}
+function exportPattern(){
+  if(!state.image)return;
+  updateSizing();
+  var wp=Math.round(Number(outWidth.value)*300),hp=Math.round(Number(outHeight.value)*300),pixels=wp*hp;
+  if(pixels>100000000||wp>30000||hp>30000){showToast("Reduce the output size before exporting.",true);return}
+  exportBtn.disabled=true;exportBtn.textContent="Rendering…";
+  setTimeout(function(){
+    try{
+      var c=document.createElement("canvas");c.width=wp;c.height=hp;var ctx=c.getContext("2d");
+      if(!ctx)throw new Error("Canvas unavailable");
+      if(state.format==="jpeg"){ctx.fillStyle=$("backgroundColor").value;ctx.fillRect(0,0,wp,hp)}
+      ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+      var tw=Math.max(1,Math.round(state.image.naturalWidth*state.scale/100)),th=Math.max(1,Math.round(state.image.naturalHeight*state.scale/100));
+      for(var y=0;y<hp;y+=th){for(var x=0;x<wp;x+=tw){ctx.drawImage(state.image,x,y,tw,th)}}
+      c.toBlob(async function(blob){
+        if(!blob){showToast("The browser could not create this file.",true);exportBtn.disabled=false;updateSizing();return}
+        try{
+          var raw=await blob.arrayBuffer(),bytes=state.format==="png"?pngDpi(raw):jpegDpi(raw);
+          var finalBlob=new Blob([bytes],{type:state.format==="png"?"image/png":"image/jpeg"}),url=URL.createObjectURL(finalBlob),a=document.createElement("a");
+          a.href=url;a.download=cleanName($("fileBase").value)+"."+state.format;document.body.appendChild(a);a.click();a.remove();
+          setTimeout(function(){URL.revokeObjectURL(url)},1500);showToast("Download ready — 300 PPI metadata included.");
+        }catch(err){showToast("The export could not be finished. Try a smaller canvas.",true)}
+        exportBtn.disabled=false;updateSizing();
+      },state.format==="png"?"image/png":"image/jpeg",.95);
+    }catch(err){showToast("The canvas is too large for this browser. Reduce the size.",true);exportBtn.disabled=false;updateSizing()}
+  },40);
+}
+dropZone.addEventListener("dragover",function(e){e.preventDefault();dropZone.classList.add("over")});
+dropZone.addEventListener("dragleave",function(){dropZone.classList.remove("over")});
+dropZone.addEventListener("drop",function(e){e.preventDefault();dropZone.classList.remove("over");handleFile(e.dataTransfer.files[0])});
+dropZone.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();fileInput.click()}});
+fileInput.addEventListener("change",function(){handleFile(fileInput.files[0])});
+scaleRange.addEventListener("input",function(){scaleNumber.value=scaleRange.value;updateSizing();renderPreview()});
+scaleNumber.addEventListener("input",function(){updateSizing();renderPreview()});
+outWidth.addEventListener("input",updateSizing);outHeight.addEventListener("input",updateSizing);
+formatButtons.forEach(function(btn){btn.addEventListener("click",function(){
+  formatButtons.forEach(function(b){b.classList.remove("active")});btn.classList.add("active");state.format=btn.dataset.format;
+  $("backgroundField").hidden=state.format!=="jpeg";updateSizing();
+})});
+viewButtons.forEach(function(btn){btn.addEventListener("click",function(){
+  viewButtons.forEach(function(b){b.classList.remove("active")});btn.classList.add("active");state.view=btn.dataset.view;
+  $("seamKey").classList.toggle("show",state.view==="offset");renderPreview();
+})});
+exportBtn.addEventListener("click",exportPattern);
+new ResizeObserver(fitPreviewCanvas).observe(wrap);window.addEventListener("resize",fitPreviewCanvas);
+updateSizing();fitPreviewCanvas();
+})();
+</script>
+</body>
+</html>
