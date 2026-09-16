@@ -26,7 +26,7 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.unit{font-size:.76rem;color:var(--muted);margin-top:5px}.output-info{margin-top:12px;padding:10px 12px;background:rgba(49,215,196,.07);border:1px solid rgba(49,215,196,.22);border-radius:10px;color:#bfe8e4;font-size:.78rem}.warning{display:none;margin-top:10px;padding:10px;border-radius:9px;color:#ffd9d9;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);font-size:.78rem}.warning.show{display:block}
 .btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;min-height:44px}.btn-primary{width:100%;color:#06131b;background:linear-gradient(135deg,var(--teal),#68e3d5);box-shadow:0 8px 24px rgba(49,215,196,.18)}.btn-primary:hover{filter:brightness(1.06)}.btn-primary:disabled{cursor:not-allowed;opacity:.38;box-shadow:none}.btn-secondary{color:#d8e6ea;background:#142838;border:1px solid #385367}.format-options{display:flex;gap:8px}.format-options button{flex:1;border:1px solid #355064;border-radius:9px;padding:9px;color:#b9cbd2;background:#091823;font-weight:800}.format-options button.active{border-color:var(--teal);color:var(--teal);background:rgba(49,215,196,.08)}
 .workspace{min-width:0;padding:22px;display:grid;grid-template-rows:auto minmax(360px,1fr);gap:16px}.results{display:grid;grid-template-columns:minmax(250px,1.35fr) repeat(2,minmax(150px,.7fr));gap:12px}.result-card{border:1px solid var(--line);border-radius:13px;background:rgba(16,31,45,.88);padding:15px;min-height:96px}.result-main{display:flex;align-items:center;gap:14px}.status-icon{flex:0 0 auto;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:var(--muted);background:#0b1924;border:5px solid #273b49}.status-icon.good{color:var(--green);border-color:rgba(110,231,168,.3)}.status-icon.maybe{color:var(--yellow);border-color:rgba(255,209,102,.3)}.status-icon.bad{color:var(--red);border-color:rgba(255,107,107,.3)}.result-card h3{font-size:.93rem;margin:0 0 3px}.result-card p{font-size:.77rem;color:var(--muted);margin:0}.score{font-size:1.72rem;font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.score small{font-size:.78rem;color:var(--muted);letter-spacing:0}.score-bar{height:5px;border-radius:10px;background:#233746;margin-top:9px;overflow:hidden}.score-bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .35s ease}.empty-score{color:#617886}
-.preview-card{position:relative;min-height:0;border:1px solid var(--line);border-radius:var(--radius);background:#0c1b27;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}.preview-toolbar{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:#102230}.preview-toolbar h2{font-size:.9rem;margin:0}.segmented{display:flex;padding:3px;background:#081722;border:1px solid #2a4253;border-radius:9px}.segmented button{border:0;background:transparent;color:var(--muted);border-radius:6px;padding:6px 10px;font-size:.77rem;font-weight:800}.segmented button.active{color:var(--ink);background:#213a4a}.zoom-note{color:var(--muted);font-size:.75rem}.canvas-wrap{position:relative;flex:1;min-height:360px;display:grid;place-items:center;overflow:hidden;background-color:#14222b;background-image:linear-gradient(45deg,#1b2c36 25%,transparent 25%),linear-gradient(-45deg,#1b2c36 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1b2c36 75%),linear-gradient(-45deg,transparent 75%,#1b2c36 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+.preview-card{position:relative;min-height:0;border:1px solid var(--line);border-radius:var(--radius);background:#0c1b27;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}.preview-toolbar{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:#102230}.preview-toolbar h2{font-size:.9rem;margin:0}.segmented{display:flex;padding:3px;background:#081722;border:1px solid #2a4253;border-radius:9px}.segmented button{border:0;background:transparent;color:var(--muted);border-radius:6px;padding:6px 10px;font-size:.77rem;font-weight:800}.segmented button.active{color:var(--ink);background:#213a4a}.seam-color{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.77rem;font-weight:800;white-space:nowrap}.seam-color input[type=color]{width:34px;height:32px;padding:3px;border:1px solid #466175;background:#081722;border-radius:7px;cursor:pointer}.zoom-note{color:var(--muted);font-size:.75rem}.canvas-wrap{position:relative;flex:1;min-height:360px;display:grid;place-items:center;overflow:hidden;background-color:#14222b;background-image:linear-gradient(45deg,#1b2c36 25%,transparent 25%),linear-gradient(-45deg,#1b2c36 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1b2c36 75%),linear-gradient(-45deg,transparent 75%,#1b2c36 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
 #preview{width:100%;height:100%;display:block}.empty-state{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;background:rgba(8,22,32,.76)}.empty-state.hide{display:none}.empty-state svg{color:#547082;margin-bottom:10px}.empty-state h2{font-size:1rem;margin:0 0 4px}.empty-state p{color:var(--muted);font-size:.83rem;margin:0;max-width:300px}.seam-key{display:none;position:absolute;right:14px;bottom:14px;background:rgba(6,17,25,.84);border:1px solid #365468;border-radius:8px;padding:7px 9px;color:#c4d7dd;font-size:.72rem}.seam-key.show{display:block}.cross{display:inline-block;width:12px;height:0;border-top:2px dashed var(--yellow);vertical-align:middle;margin-right:6px}
 .toast{position:fixed;right:20px;bottom:20px;max-width:330px;transform:translateY(20px);opacity:0;pointer-events:none;border:1px solid #356052;background:#102b29;color:#d7fff9;border-radius:12px;padding:12px 15px;box-shadow:var(--shadow);transition:.25s;z-index:50;font-size:.86rem}.toast.show{transform:none;opacity:1}
 @media(max-width:900px){header{padding:0 16px}.privacy span{display:none}main{grid-template-columns:1fr}.controls{border-right:0;border-bottom:1px solid var(--line)}.workspace{min-height:720px}.results{grid-template-columns:1fr 1fr}.result-card:first-child{grid-column:1/-1}}
@@ -97,12 +97,13 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
     <div class="preview-toolbar">
       <h2>Repeat preview</h2>
       <div class="segmented" role="group" aria-label="Preview mode"><button type="button" class="active" data-view="tiles">Tiled view</button><button type="button" data-view="offset">Center seams</button></div>
+      <label class="seam-color" for="seamColor">Seam color <input id="seamColor" type="color" value="#ffd166" aria-label="Choose seam indicator color"></label>
       <span class="zoom-note">Scale control changes preview and export</span>
     </div>
     <div class="canvas-wrap" id="canvasWrap">
       <canvas id="preview" aria-label="Repeated pattern preview"></canvas>
       <div class="empty-state" id="emptyState"><div><svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="26" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="4" y="26" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><rect x="26" y="26" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/></svg><h2>Your repeat will appear here</h2><p>Use the original pattern tile—not a screenshot of several repeats—for the most accurate check.</p></div></div>
-      <div class="seam-key" id="seamKey"><span class="cross"></span>Original tile seams centered</div>
+      <div class="seam-key" id="seamKey"><span class="cross" id="seamSwatch"></span>Original tile seams centered</div>
     </div>
   </div>
 </section>
@@ -112,11 +113,11 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
 <script>
 (function(){
 "use strict";
-var state={image:null,file:null,scale:100,format:"png",view:"tiles",analysis:null};
+var state={image:null,file:null,scale:100,format:"png",view:"tiles",analysis:null,seamColor:"#ffd166"};
 var $=function(id){return document.getElementById(id)};
 var fileInput=$("fileInput"),dropZone=$("dropZone"),preview=$("preview"),wrap=$("canvasWrap");
 var scaleRange=$("scaleRange"),scaleNumber=$("scaleNumber"),outWidth=$("outWidth"),outHeight=$("outHeight");
-var exportBtn=$("exportBtn"),formatButtons=document.querySelectorAll("[data-format]"),viewButtons=document.querySelectorAll("[data-view]");
+var exportBtn=$("exportBtn"),formatButtons=document.querySelectorAll("[data-format]"),viewButtons=document.querySelectorAll("[data-view]"),seamColor=$("seamColor");
 var toastTimer;
 
 function showToast(message,isError){
@@ -220,7 +221,7 @@ function renderPreview(){
   var startY=state.view==="offset"?h/2-Math.floor(h/2/th)*th-th/2:0;
   for(var y=startY-th;y<h+th;y+=th){for(var x=startX-tw;x<w+tw;x+=tw){ctx.drawImage(img,Math.round(x),Math.round(y),Math.ceil(tw),Math.ceil(th))}}
   if(state.view==="offset"){
-    ctx.save();ctx.strokeStyle="#ffd166";ctx.lineWidth=1.5*dpr;ctx.setLineDash([7*dpr,6*dpr]);
+    ctx.save();ctx.strokeStyle=state.seamColor;ctx.lineWidth=1.5*dpr;ctx.setLineDash([7*dpr,6*dpr]);
     ctx.beginPath();ctx.moveTo(w/2,0);ctx.lineTo(w/2,h);ctx.moveTo(0,h/2);ctx.lineTo(w,h/2);ctx.stroke();ctx.restore();
   }
 }
@@ -297,6 +298,9 @@ viewButtons.forEach(function(btn){btn.addEventListener("click",function(){
   viewButtons.forEach(function(b){b.classList.remove("active")});btn.classList.add("active");state.view=btn.dataset.view;
   $("seamKey").classList.toggle("show",state.view==="offset");renderPreview();
 })});
+seamColor.addEventListener("input",function(){
+  state.seamColor=seamColor.value;$("seamSwatch").style.borderTopColor=state.seamColor;renderPreview();
+});
 exportBtn.addEventListener("click",exportPattern);
 new ResizeObserver(fitPreviewCanvas).observe(wrap);window.addEventListener("resize",fitPreviewCanvas);
 updateSizing();fitPreviewCanvas();
