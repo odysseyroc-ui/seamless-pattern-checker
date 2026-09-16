@@ -21,7 +21,7 @@ main{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:calc(100v
 .section{border-bottom:1px solid var(--line);padding:0 0 22px;margin:0 0 22px}.section:last-child{border:0;margin:0}.eyebrow{color:var(--teal);text-transform:uppercase;letter-spacing:.13em;font-size:.73rem;font-weight:800;margin-bottom:10px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.section h2{font-size:.98rem;margin:0}.step{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;color:#07131e;background:var(--yellow);font-size:.78rem;font-weight:900}
 .drop{display:grid;place-items:center;text-align:center;min-height:144px;padding:20px;border:1.5px dashed #527183;border-radius:14px;background:rgba(255,255,255,.025);transition:.2s ease}.drop:hover,.drop.over{border-color:var(--teal);background:rgba(49,215,196,.06);transform:translateY(-1px)}.drop strong{font-size:.95rem}.drop span{color:var(--muted);font-size:.8rem;margin-top:5px}.upload-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;color:var(--teal);background:rgba(49,215,196,.1);margin-bottom:10px}.file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .file-meta{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:#0a1925;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}.file-meta.show{display:block}.file-meta strong{display:block;color:var(--ink);font-size:.83rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.field{margin-top:15px}.label-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:7px}.label-row label,.label{color:#c8d7dc;font-size:.84rem;font-weight:700}.value{color:var(--yellow);font-variant-numeric:tabular-nums;font-size:.82rem}
+.field{margin-top:15px}.hint{margin:-2px 0 13px;color:var(--muted);font-size:.78rem}.trim-controls{border:0;padding:0;margin:0;min-width:0}.trim-controls:disabled{opacity:.48}.trim-row{display:grid;grid-template-columns:48px minmax(90px,1fr) 78px;align-items:center;gap:9px;margin-top:9px}.trim-row label{color:#c8d7dc;font-size:.8rem;font-weight:750}.trim-row input[type=number]{min-height:36px;padding:7px 23px 7px 8px;font-size:.8rem}.trim-number{position:relative}.trim-number span{position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.74rem;pointer-events:none}.trim-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px}.trim-reset{min-height:36px;padding:7px 11px;font-size:.78rem}.trim-footer span{color:var(--teal);font-size:.75rem;text-align:right;font-variant-numeric:tabular-nums}.label-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:7px}.label-row label,.label{color:#c8d7dc;font-size:.84rem;font-weight:700}.value{color:var(--yellow);font-variant-numeric:tabular-nums;font-size:.82rem}
 input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[type=number],select{width:100%;border:1px solid #355064;background:#091823;color:var(--ink);border-radius:9px;padding:10px 11px;min-height:42px}input[type=color]{width:100%;height:42px;padding:4px;border:1px solid #355064;background:#091823;border-radius:9px}
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.unit{font-size:.76rem;color:var(--muted);margin-top:5px}.output-info{margin-top:12px;padding:10px 12px;background:rgba(49,215,196,.07);border:1px solid rgba(49,215,196,.22);border-radius:10px;color:#bfe8e4;font-size:.78rem}.warning{display:none;margin-top:10px;padding:10px;border-radius:9px;color:#ffd9d9;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);font-size:.78rem}.warning.show{display:block}
 .btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;min-height:44px}.btn-primary{width:100%;color:#06131b;background:linear-gradient(135deg,var(--teal),#68e3d5);box-shadow:0 8px 24px rgba(49,215,196,.18)}.btn-primary:hover{filter:brightness(1.06)}.btn-primary:disabled{cursor:not-allowed;opacity:.38;box-shadow:none}.btn-secondary{color:#d8e6ea;background:#142838;border:1px solid #385367}.format-options{display:flex;gap:8px}.format-options button{flex:1;border:1px solid #355064;border-radius:9px;padding:9px;color:#b9cbd2;background:#091823;font-weight:800}.format-options button.active{border-color:var(--teal);color:var(--teal);background:rgba(49,215,196,.08)}
@@ -52,7 +52,19 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
   </section>
 
   <section class="section">
-    <div class="section-title"><div><div class="eyebrow">Pattern scale</div><h2>Set the repeat size</h2></div><span class="step">2</span></div>
+    <div class="section-title"><div><div class="eyebrow">Trim source</div><h2>Find the repeating edge</h2></div><span class="step">2</span></div>
+    <p class="hint">Trim each edge until the repeat lines up. Seam scores and the preview update automatically.</p>
+    <fieldset class="trim-controls" id="trimControls" disabled>
+      <div class="trim-row"><label for="cropLeftRange">Left</label><input id="cropLeftRange" type="range" min="0" max="95" value="0" step=".1"><div class="trim-number"><input id="cropLeftInput" type="number" min="0" max="95" value="0" step=".01" aria-label="Left trim percentage"><span>%</span></div></div>
+      <div class="trim-row"><label for="cropRightRange">Right</label><input id="cropRightRange" type="range" min="0" max="95" value="0" step=".1"><div class="trim-number"><input id="cropRightInput" type="number" min="0" max="95" value="0" step=".01" aria-label="Right trim percentage"><span>%</span></div></div>
+      <div class="trim-row"><label for="cropTopRange">Top</label><input id="cropTopRange" type="range" min="0" max="95" value="0" step=".1"><div class="trim-number"><input id="cropTopInput" type="number" min="0" max="95" value="0" step=".01" aria-label="Top trim percentage"><span>%</span></div></div>
+      <div class="trim-row"><label for="cropBottomRange">Bottom</label><input id="cropBottomRange" type="range" min="0" max="95" value="0" step=".1"><div class="trim-number"><input id="cropBottomInput" type="number" min="0" max="95" value="0" step=".01" aria-label="Bottom trim percentage"><span>%</span></div></div>
+      <div class="trim-footer"><button type="button" class="btn btn-secondary trim-reset" id="resetTrim">Reset trim</button><span id="cropInfo">Full image</span></div>
+    </fieldset>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><div><div class="eyebrow">Pattern scale</div><h2>Set the repeat size</h2></div><span class="step">3</span></div>
     <div class="field">
       <div class="label-row"><label for="scaleRange">Scale</label><span class="value" id="scaleValue">100%</span></div>
       <input id="scaleRange" type="range" min="5" max="400" value="100" step="1">
@@ -66,7 +78,7 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
   </section>
 
   <section class="section">
-    <div class="section-title"><div><div class="eyebrow">Final canvas</div><h2>Choose output size</h2></div><span class="step">3</span></div>
+    <div class="section-title"><div><div class="eyebrow">Final canvas</div><h2>Choose output size</h2></div><span class="step">4</span></div>
     <div class="twocol">
       <div><label class="label" for="outWidth">Width</label><input id="outWidth" type="number" min=".1" max="100" step=".125" value="12"><div class="unit">inches</div></div>
       <div><label class="label" for="outHeight">Height</label><input id="outHeight" type="number" min=".1" max="100" step=".125" value="20"><div class="unit">inches</div></div>
@@ -76,7 +88,7 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
   </section>
 
   <section class="section">
-    <div class="section-title"><div><div class="eyebrow">Download</div><h2>Export the pattern</h2></div><span class="step">4</span></div>
+    <div class="section-title"><div><div class="eyebrow">Download</div><h2>Export the pattern</h2></div><span class="step">5</span></div>
     <div class="field"><span class="label">File format</span><div class="format-options" role="group" aria-label="File format"><button type="button" class="active" data-format="png">PNG</button><button type="button" data-format="jpeg">JPEG</button></div></div>
     <div class="field" id="backgroundField" hidden><label class="label" for="backgroundColor">JPEG background</label><input id="backgroundColor" type="color" value="#ffffff"></div>
     <div class="field"><label class="label" for="fileBase">File name</label><input id="fileBase" type="text" value="seamless-pattern" maxlength="80"></div>
@@ -115,11 +127,12 @@ input[type=range]{width:100%;accent-color:var(--teal)}input[type=text],input[typ
 <script>
 (function(){
 "use strict";
-var state={image:null,file:null,scale:100,format:"png",view:"tiles",analysis:null,seamColor:"#ffd166",seamVisible:true,zoom:1,panX:0,panY:0};
+var state={image:null,file:null,scale:100,format:"png",view:"tiles",analysis:null,seamColor:"#ffd166",seamVisible:true,zoom:1,panX:0,panY:0,crop:{left:0,right:0,top:0,bottom:0}};
 var $=function(id){return document.getElementById(id)};
 var fileInput=$("fileInput"),dropZone=$("dropZone"),preview=$("preview"),wrap=$("canvasWrap");
 var scaleRange=$("scaleRange"),scaleNumber=$("scaleNumber"),outWidth=$("outWidth"),outHeight=$("outHeight");
 var exportBtn=$("exportBtn"),formatButtons=document.querySelectorAll("[data-format]"),viewButtons=document.querySelectorAll("[data-view]"),seamColor=$("seamColor"),seamVisible=$("seamVisible"),zoomIn=$("zoomIn"),zoomOut=$("zoomOut"),zoomReset=$("zoomReset");
+var cropSides=["left","right","top","bottom"],cropTimer;
 var toastTimer;
 
 function showToast(message,isError){
@@ -129,12 +142,18 @@ function showToast(message,isError){
 function clamp(v,min,max){return Math.min(max,Math.max(min,v))}
 function cleanName(name){return (name||"seamless-pattern").trim().replace(/\.[^.]+$/,"").replace(/[^a-z0-9_-]+/gi,"-").replace(/^-+|-+$/g,"")||"seamless-pattern"}
 function formatNumber(n){return new Intl.NumberFormat("en-US").format(n)}
+function getCropRect(image){
+  image=image||state.image;if(!image)return{x:0,y:0,w:1,h:1};
+  var x=Math.round(image.naturalWidth*state.crop.left/100),y=Math.round(image.naturalHeight*state.crop.top/100);
+  var right=Math.round(image.naturalWidth*state.crop.right/100),bottom=Math.round(image.naturalHeight*state.crop.bottom/100);
+  return{x:x,y:y,w:Math.max(1,image.naturalWidth-x-right),h:Math.max(1,image.naturalHeight-y-bottom)};
+}
 function hasTransparency(image){
-  var c=document.createElement("canvas"),max=500,ratio=Math.min(1,max/Math.max(image.naturalWidth,image.naturalHeight));
-  c.width=Math.max(1,Math.round(image.naturalWidth*ratio)); c.height=Math.max(1,Math.round(image.naturalHeight*ratio));
-  var x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(image,0,0,c.width,c.height);
+  var cr=getCropRect(image),max=500,ratio=Math.min(1,max/Math.max(cr.w,cr.h));
+  var c=document.createElement("canvas");c.width=Math.max(1,Math.round(cr.w*ratio));c.height=Math.max(1,Math.round(cr.h*ratio));
+  var x=c.getContext("2d",{willReadFrequently:true});x.drawImage(image,cr.x,cr.y,cr.w,cr.h,0,0,c.width,c.height);
   var d=x.getImageData(0,0,c.width,c.height).data;
-  for(var i=3;i<d.length;i+=4){if(d[i]<255)return true} return false;
+  for(var i=3;i<d.length;i+=4){if(d[i]<255)return true}return false;
 }
 function pixelVector(data,i){
   var a=data[i+3]/255;
@@ -152,10 +171,10 @@ function edgeScore(errors){
   return Math.round(clamp(100*(1-combined*2.35),0,100));
 }
 function analyze(image){
-  var max=1100,ratio=Math.min(1,max/Math.max(image.naturalWidth,image.naturalHeight));
-  var w=Math.max(2,Math.round(image.naturalWidth*ratio)),h=Math.max(2,Math.round(image.naturalHeight*ratio));
-  var c=document.createElement("canvas"); c.width=w;c.height=h;
-  var x=c.getContext("2d",{willReadFrequently:true});x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(image,0,0,w,h);
+  var cr=getCropRect(image),max=1100,ratio=Math.min(1,max/Math.max(cr.w,cr.h));
+  var w=Math.max(2,Math.round(cr.w*ratio)),h=Math.max(2,Math.round(cr.h*ratio));
+  var c=document.createElement("canvas");c.width=w;c.height=h;
+  var x=c.getContext("2d",{willReadFrequently:true});x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(image,cr.x,cr.y,cr.w,cr.h,0,0,w,h);
   var d=x.getImageData(0,0,w,h).data,errorsX=[],errorsY=[];
   var stepY=Math.max(1,Math.floor(h/700)),stepX=Math.max(1,Math.floor(w/700));
   for(var y=0;y<h;y+=stepY){errorsX.push(pixelError(pixelVector(d,(y*w)*4),pixelVector(d,(y*w+w-1)*4)))}
@@ -175,13 +194,39 @@ function updateAnalysis(){
   else if(low>=82){$("statusTitle").textContent="Possible subtle seam";$("statusText").textContent="The edges are similar, but inspect the centered seams before printing."}
   else{$("statusTitle").textContent="Visible seam likely";$("statusText").textContent="Opposite edges differ enough that a repeated line may appear."}
 }
+function cropId(side,suffix){return"crop"+side.charAt(0).toUpperCase()+side.slice(1)+suffix}
+function syncCropControls(){
+  cropSides.forEach(function(side){
+    var opposite=side==="left"?"right":side==="right"?"left":side==="top"?"bottom":"top";
+    var max=Math.max(0,95-state.crop[opposite]),range=$(cropId(side,"Range")),input=$(cropId(side,"Input"));
+    range.max=max;input.max=max;range.value=state.crop[side];input.value=Number(state.crop[side].toFixed(2));
+  });
+  updateCropInfo();
+}
+function updateCropInfo(){
+  if(!state.image){$("cropInfo").textContent="Full image";return}
+  var cr=getCropRect();$("cropInfo").textContent=formatNumber(cr.w)+" × "+formatNumber(cr.h)+" px";
+}
+function refreshCrop(){
+  if(!state.image)return;
+  updateCropInfo();updateSizing();renderPreview();clearTimeout(cropTimer);
+  cropTimer=setTimeout(function(){state.analysis=analyze(state.image);updateAnalysis()},90);
+}
+function setCrop(side,value){
+  var opposite=side==="left"?"right":side==="right"?"left":side==="top"?"bottom":"top";
+  state.crop[side]=clamp(Number(value)||0,0,Math.max(0,95-state.crop[opposite]));
+  syncCropControls();refreshCrop();
+}
+function resetCrop(){
+  state.crop={left:0,right:0,top:0,bottom:0};syncCropControls();refreshCrop();
+}
 function handleFile(file){
   if(!file)return;
   if(!/^image\/(png|jpeg|webp)$/.test(file.type)){showToast("Please choose a PNG, JPEG, or WebP image.",true);return}
   var url=URL.createObjectURL(file),img=new Image();
   img.onload=function(){
     if(state.image&&state.image._url)URL.revokeObjectURL(state.image._url);
-    img._url=url;state.image=img;state.file=file;state.analysis=analyze(img);state.zoom=1;state.panX=0;state.panY=0;updateZoomUi();
+    img._url=url;state.image=img;state.file=file;state.crop={left:0,right:0,top:0,bottom:0};syncCropControls();$("trimControls").disabled=false;state.analysis=analyze(img);state.zoom=1;state.panX=0;state.panY=0;updateZoomUi();
     $("fileName").textContent=file.name;
     var alpha=hasTransparency(img);
     $("fileDetails").textContent=formatNumber(img.naturalWidth)+" × "+formatNumber(img.naturalHeight)+" px · "+(alpha?"Transparency detected":"Opaque");
@@ -196,7 +241,7 @@ function updateSizing(){
   state.scale=clamp(Number(scaleNumber.value)||100,5,400);
   scaleRange.value=state.scale;scaleNumber.value=state.scale;$("scaleValue").textContent=state.scale+"%";
   if(state.image){
-    var tw=state.image.naturalWidth*state.scale/100,th=state.image.naturalHeight*state.scale/100;
+    var cr=getCropRect(),tw=cr.w*state.scale/100,th=cr.h*state.scale/100;
     $("tileSize").textContent=(tw/300).toFixed(2)+" × "+(th/300).toFixed(2)+" in";
   }
   var wi=Math.max(.1,Number(outWidth.value)||0),hi=Math.max(.1,Number(outHeight.value)||0);
@@ -214,7 +259,7 @@ function fitPreviewCanvas(){
 }
 function tileSizeCss(zoom){
   if(!state.image)return{w:1,h:1};
-  var aspect=state.image.naturalWidth/state.image.naturalHeight,base=190*(state.scale/100)*(zoom||state.zoom),tw,th;
+  var cr=getCropRect(),aspect=cr.w/cr.h,base=190*(state.scale/100)*(zoom||state.zoom),tw,th;
   if(aspect>=1){tw=base;th=base/aspect}else{th=base;tw=base*aspect}
   return{w:Math.max(8,tw),h:Math.max(8,th)};
 }
@@ -237,11 +282,11 @@ function resetView(){state.zoom=1;state.panX=0;state.panY=0;updateZoomUi();rende
 function mod(n,m){return((n%m)+m)%m}
 function renderPreview(){
   var ctx=preview.getContext("2d"),w=preview.width,h=preview.height;ctx.clearRect(0,0,w,h);if(!state.image)return;
-  var dpr=Math.min(window.devicePixelRatio||1,2),img=state.image,size=tileSizeCss(state.zoom),tw=size.w*dpr,th=size.h*dpr;
+  var dpr=Math.min(window.devicePixelRatio||1,2),img=state.image,cr=getCropRect(),size=tileSizeCss(state.zoom),tw=size.w*dpr,th=size.h*dpr;
   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
   var originX=(state.view==="offset"?w/2:0)+state.panX*dpr,originY=(state.view==="offset"?h/2:0)+state.panY*dpr;
   var startX=mod(originX,tw)-tw,startY=mod(originY,th)-th;
-  for(var y=startY;y<h+th;y+=th){for(var x=startX;x<w+tw;x+=tw){ctx.drawImage(img,Math.round(x),Math.round(y),Math.ceil(tw),Math.ceil(th))}}
+  for(var y=startY;y<h+th;y+=th){for(var x=startX;x<w+tw;x+=tw){ctx.drawImage(img,cr.x,cr.y,cr.w,cr.h,Math.round(x),Math.round(y),Math.ceil(tw),Math.ceil(th))}}
   if(state.view==="offset"&&state.seamVisible){
     var guideX=originX+Math.round((w/2-originX)/tw)*tw,guideY=originY+Math.round((h/2-originY)/th)*th;
     ctx.save();ctx.strokeStyle=state.seamColor;ctx.lineWidth=1.5*dpr;ctx.setLineDash([7*dpr,6*dpr]);
@@ -290,8 +335,8 @@ function exportPattern(){
       if(!ctx)throw new Error("Canvas unavailable");
       if(state.format==="jpeg"){ctx.fillStyle=$("backgroundColor").value;ctx.fillRect(0,0,wp,hp)}
       ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
-      var tw=Math.max(1,Math.round(state.image.naturalWidth*state.scale/100)),th=Math.max(1,Math.round(state.image.naturalHeight*state.scale/100));
-      for(var y=0;y<hp;y+=th){for(var x=0;x<wp;x+=tw){ctx.drawImage(state.image,x,y,tw,th)}}
+      var cr=getCropRect(),tw=Math.max(1,Math.round(cr.w*state.scale/100)),th=Math.max(1,Math.round(cr.h*state.scale/100));
+      for(var y=0;y<hp;y+=th){for(var x=0;x<wp;x+=tw){ctx.drawImage(state.image,cr.x,cr.y,cr.w,cr.h,x,y,tw,th)}}
       c.toBlob(async function(blob){
         if(!blob){showToast("The browser could not create this file.",true);exportBtn.disabled=false;updateSizing();return}
         try{
@@ -310,6 +355,11 @@ dropZone.addEventListener("dragleave",function(){dropZone.classList.remove("over
 dropZone.addEventListener("drop",function(e){e.preventDefault();dropZone.classList.remove("over");handleFile(e.dataTransfer.files[0])});
 dropZone.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();fileInput.click()}});
 fileInput.addEventListener("change",function(){handleFile(fileInput.files[0])});
+cropSides.forEach(function(side){
+  $(cropId(side,"Range")).addEventListener("input",function(){setCrop(side,this.value)});
+  $(cropId(side,"Input")).addEventListener("input",function(){setCrop(side,this.value)});
+});
+$("resetTrim").addEventListener("click",resetCrop);
 scaleRange.addEventListener("input",function(){scaleNumber.value=scaleRange.value;updateSizing();renderPreview()});
 scaleNumber.addEventListener("input",function(){updateSizing();renderPreview()});
 outWidth.addEventListener("input",updateSizing);outHeight.addEventListener("input",updateSizing);
