@@ -1,4 +1,4 @@
-# Pattern Proof
+# Odysseyroc Patternator Pro
 
 A browser-based seamless pattern checker and 300 PPI export tool.
 
